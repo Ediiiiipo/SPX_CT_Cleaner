@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Política de Privacidade — SPX CT Cleaner</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 720px; margin: 40px auto; padding: 0 20px; color: #333; line-height: 1.7; }
+  h1 { font-size: 24px; border-bottom: 2px solid #ef4444; padding-bottom: 10px; }
+  h2 { font-size: 18px; margin-top: 30px; color: #ef4444; }
+  p, li { font-size: 15px; }
+  .updated { font-size: 13px; color: #888; }
+</style>
+</head>
+<body>
+<h1>Política de Privacidade</h1>
+<p><strong>SPX CT Cleaner</strong> — Extensão Chrome</p>
+<p class="updated">Última atualização: 05 de março de 2026</p>
+
+<h2>1. Informações Gerais</h2>
+<p>A extensão SPX CT Cleaner é uma ferramenta de produtividade interna destinada a analistas de logística que utilizam a plataforma SPX (Shopee). Sua finalidade é permitir o cancelamento em massa de Calculation Tasks (CTs) pendentes. Esta política descreve como a extensão lida com dados do usuário.</p>
+
+<h2>2. Dados Coletados</h2>
+<p><strong>A extensão NÃO coleta, armazena, transmite ou compartilha nenhum dado pessoal do usuário.</strong></p>
+<p>Especificamente, a extensão:</p>
+<ul>
+  <li>Não coleta informações pessoais identificáveis</li>
+  <li>Não utiliza cookies próprios</li>
+  <li>Não possui servidores externos ou backend</li>
+  <li>Não transmite dados para terceiros</li>
+  <li>Não realiza rastreamento ou analytics</li>
+</ul>
+
+<h2>3. Dados Processados Localmente</h2>
+<p>A extensão processa os seguintes dados exclusivamente no navegador do usuário, de forma local e temporária:</p>
+<ul>
+  <li><strong>IDs de Calculation Tasks (CTs):</strong> Lidos diretamente da tabela exibida na página do SPX para identificar tarefas de cálculo pendentes. Esses IDs não são armazenados ou enviados a destinos externos.</li>
+  <li><strong>Cookies de sessão do SPX:</strong> Utilizados apenas para autenticar as requisições à API do próprio SPX Shopee (endpoint de cancelamento), dentro da aba já autenticada do usuário. A extensão não lê, armazena ou transmite esses cookies para nenhum destino externo.</li>
+</ul>
+
+<h2>4. Permissões Utilizadas</h2>
+<ul>
+  <li><strong>activeTab:</strong> Para interagir com a aba ativa do SPX quando o usuário clica na extensão.</li>
+  <li><strong>scripting:</strong> Para executar scripts na página do SPX que leem dados da tabela de CTs e fazem requisições à API de cancelamento.</li>
+</ul>
+
+<h2>5. Comunicações de Rede</h2>
+<p>A extensão realiza requisições HTTP exclusivamente para o domínio <code>spx.shopee.com.br</code>, utilizando a sessão já autenticada do usuário. Especificamente, utiliza o endpoint <code>/api/spx/lmroute/adminapi/calculation_task/cancel</code> para cancelar CTs. Nenhuma requisição é feita para domínios de terceiros.</p>
+
+<h2>6. Armazenamento</h2>
+<p>A extensão não utiliza armazenamento persistente (localStorage, chrome.storage, IndexedDB ou similares). Todos os dados são mantidos apenas em memória durante o uso e descartados ao fechar o popup.</p>
+
+<h2>7. Alterações nesta Política</h2>
+<p>Eventuais alterações serão publicadas nesta página com a data de atualização revisada.</p>
+
+<h2>8. Contato</h2>
+<p>Em caso de dúvidas sobre esta política de privacidade, entre em contato pelo e-mail do desenvolvedor disponível na página da extensão na Chrome Web Store.</p>
+</body>
+</html>
