@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    :root {
+      --bg: #0f1419; --bg2: #1a1f25; --bg3: #242a32;
+      --border: #2d333b; --accent: #ef4444; --accent-bg: rgba(239,68,68,0.15);
+      --success: #22c55e; --success-bg: rgba(34,197,94,0.15);
+      --warn: #f59e0b; --warn-bg: rgba(245,158,11,0.15);
+      --blue: #3b82f6; --blue-bg: rgba(59,130,246,0.15);
+      --text: #e6edf3; --text2: #c9d1d9; --text3: #8b949e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { width: 400px; max-height: 520px; overflow-y: auto; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 13px; }
+
+    .header { padding: 14px 20px 10px; border-bottom: 1px solid var(--border); }
+    .header-top { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo h1 { font-size: 15px; font-weight: 700; }
+    .version { font-family: monospace; font-size: 11px; color: var(--accent); background: var(--accent-bg); padding: 2px 8px; border-radius: 10px; }
+    .header-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+    .status-bar { display: flex; align-items: center; gap: 8px; padding: 8px 20px; border-bottom: 1px solid var(--border); background: var(--bg2); }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+    .status-dot.ok { background: var(--success); }
+    .status-text { font-size: 11px; color: var(--text3); }
+
+    .content { padding: 16px 20px; }
+
+    .info-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px; margin-bottom: 12px; text-align: center; }
+    .info-big { font-size: 36px; font-weight: 700; color: var(--accent); }
+    .info-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+    .info-detail { font-size: 10px; color: var(--text3); margin-top: 8px; }
+
+    .filter-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center; }
+    .filter-btn { padding: 5px 10px; font-size: 10px; font-weight: 600; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); background: var(--bg3); color: var(--text3); transition: all 0.2s; }
+    .filter-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-bg); }
+    .filter-btn.active-blue { border-color: var(--blue); color: var(--blue); background: var(--blue-bg); }
+    .filter-btn.active-warn { border-color: var(--warn); color: var(--warn); background: var(--warn-bg); }
+
+    .btn-main { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 13px; font-weight: 600; color: #fff; cursor: pointer; transition: all 0.2s; }
+    .btn-main:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-main:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-danger { background: var(--accent); box-shadow: 0 4px 20px var(--accent-bg); }
+    .btn-blue { background: var(--blue); box-shadow: 0 4px 20px var(--blue-bg); }
+
+    .progress-bar { height: 4px; background: var(--bg3); border-radius: 2px; margin: 10px 0 6px; overflow: hidden; display: none; }
+    .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; width: 0%; }
+    .progress-text { font-size: 11px; color: var(--text3); text-align: center; display: none; }
+
+    .result { display: none; text-align: center; padding: 10px 0; }
+    .result-ok { color: var(--success); font-size: 14px; font-weight: 600; }
+    .result-detail { color: var(--text3); font-size: 11px; margin-top: 4px; }
+
+    .log-area { padding: 0 20px 12px; }
+    .log-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 6px 0; user-select: none; }
+    .log-toggle h3 { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 1px; }
+    .log-toggle svg { width: 14px; height: 14px; color: var(--text3); transition: transform 0.2s; }
+    .log-toggle.open svg { transform: rotate(180deg); }
+    .log-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .log-body.open { max-height: 150px; overflow-y: auto; }
+    .log-entry { font-family: 'Consolas', monospace; font-size: 10px; padding: 2px 0; color: var(--text3); }
+    .log-entry.success { color: var(--success); }
+    .log-entry.error { color: var(--accent); }
+    .log-entry.warn { color: var(--warn); }
+    .log-time { margin-right: 6px; }
+
+    .spinner-sm { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .footer { padding: 8px 20px; text-align: center; font-family: monospace; font-size: 10px; color: var(--text3); }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-top">
+      <div class="logo"><div style="font-size:20px;">🧹</div><h1>SPX CT Cleaner</h1></div>
+      <span class="version">v1.0.0</span>
+    </div>
+    <div class="header-sub">Cancelamento em massa de CTs — Routing Tower</div>
+  </div>
+
+  <div class="status-bar">
+    <div class="status-dot" id="statusDot"></div>
+    <span class="status-text" id="statusText">Verificando...</span>
+  </div>
+
+  <div class="content">
+    <div class="info-card">
+      <div class="info-big" id="ctCount">—</div>
+      <div class="info-label">CTs encontradas</div>
+      <div class="info-detail" id="ctDetail"></div>
+    </div>
+
+    <div class="filter-row" id="filterRow">
+      <div class="filter-btn active" id="fAll">Todas</div>
+      <div class="filter-btn" id="fPending">⏳ Cálculo Pendente</div>
+      <div class="filter-btn" id="fConfirm">⏳ Confirmação Pendente</div>
+      <div class="filter-btn" id="fCalculating">🔄 Calculando</div>
+    </div>
+
+    <div style="display:flex; gap:8px; flex-direction:column;">
+      <button class="btn-main btn-blue" id="btnScan">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Buscar CTs na Página
+      </button>
+
+      <button class="btn-main btn-danger" id="btnCancel" disabled>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+      Cancelar CTs Selecionadas
+    </button>
+    </div>
+
+    <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText"></div>
+
+    <div class="result" id="result">
+      <div class="result-ok" id="resultText"></div>
+      <div class="result-detail" id="resultDetail"></div>
+    </div>
+  </div>
+
+  <div class="log-area">
+    <div class="log-toggle" id="logToggle">
+      <h3>Logs</h3>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="log-body" id="logBody"></div>
+  </div>
+
+  <div class="footer">🧹 SPX CT Cleaner — by Éd1p0 / Peter — Routing Tower</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
